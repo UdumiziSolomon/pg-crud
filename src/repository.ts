@@ -46,6 +46,34 @@ class UserRepository {
       }
     );
   }
+
+  public updateUser(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    const { username, email } = req.body;
+
+    DBInstance.query(
+      "UPDATE users SET username = $1, email = $2 WHERE id = $3",
+      [username, email, id],
+      (error, _) => {
+        if (error) {
+          res.status(500).json({ error });
+        } else {
+          res.status(201).send(`user ${id} modified`);
+        }
+      }
+    );
+  }
+  public deleteUser(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+
+    DBInstance.query("DELETE FROM users WHERE id = $1", [id], (error, _) => {
+      if (error) {
+        res.status(500).json({ error });
+      } else {
+        res.status(201).send(`user ${id} deleted`);
+      }
+    });
+  }
 }
 
 export default new UserRepository();

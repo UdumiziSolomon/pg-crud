@@ -1,6 +1,6 @@
 import express, { Application, Request, Response, urlencoded } from "express";
 import { log } from "console";
-import UserRepository from './repository';
+import UserRepository from "./repository";
 
 class Server {
   public app: Application;
@@ -25,8 +25,9 @@ class Server {
     this.app.get("/get/users", UserRepository.getUsers);
     this.app.get("/get/users/:id", UserRepository.getUserByID);
     this.app.post("/post/users", UserRepository.createUsers);
+    this.app.put("/update/users/:id", UserRepository.updateUser);
+    this.app.delete("/delete/users/:id", UserRepository.deleteUser);
   }
-
 
   private listen(): void {
     this.app.listen(this.port, () =>
